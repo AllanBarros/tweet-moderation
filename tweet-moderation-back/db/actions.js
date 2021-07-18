@@ -1,5 +1,6 @@
 const mongoose = require('./db');
-const Hashtag = require('./models/schemas');
+const { Hashtag } = require('./models/schemas');
+const { Tweets } = require('./models/schemas');
 const api = require('../twitterApi');
 
 
@@ -20,7 +21,6 @@ function hashtag_create(hashtag, resultado_busca) {
     })
 }
 
-
 exports.create = function (data) {
     return api.get_tweets(data['valor'])
         .then(resultado => {
@@ -40,4 +40,25 @@ exports.find_tweets = () => {
 }).catch((error) => {
     return error
 })
+}
+
+exports.aprovar_tweets = (data) => {
+
+   let updates = data.valor.map(e => {
+        return Hashtag.updateMany({'hashtags._id': e}, {'hashtags.$.aprovado': true })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            return err
+        })
+    })
+
+return Promise.all(updates).then(res =>{
+    return res
+})
+.catch(err =>{
+    return err
+})
+
 }

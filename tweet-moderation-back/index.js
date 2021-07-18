@@ -31,6 +31,16 @@ app.post('/hashtag', (req, res, next) => {
   })
 })  
 
+app.post('/aprovar-tweets', (req, res, next) => {
+  hash.aprovar_tweets(req.body)
+  .then((result) =>{
+    return res.status(201).send(result)
+  })
+  .catch((error) => {
+    return res.status(500).send(error)
+  })
+})  
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

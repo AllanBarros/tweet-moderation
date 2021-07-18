@@ -15,5 +15,9 @@ var hashtagSchema = new Schema({
 
 
   var Hashtag = mongoose.model('Hashtag', hashtagSchema);
+  var Tweets = mongoose.model('Tweets', tweetSchema);
 
-  module.exports = Hashtag;
+  module.exports = {
+    Hashtag:Hashtag,
+    Tweets:Tweets
+  }
