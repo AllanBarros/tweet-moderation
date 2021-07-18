@@ -18,11 +18,11 @@ export function POST(endpoint, valor) {
   }
 
   
-export function GET(endpoint) {
+export function GET(endpoint, saveSearch) {
   axios.get(endereco_backend + endpoint,{
   }, options)
   .then((response) => {
-      return response.data
+      return saveSearch(response.data)
   }, (error) => {
     console.log(error);
   });

@@ -1,17 +1,21 @@
 import '../App.css';
 import {useState, useEffect} from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 import Header from '../components/Header';
 import Table from '../components/DataGrid';
-import { GET } from '../backend';
+import { GET, POST } from '../backend';
 
 function Moderate() {
   const [lista, setLista] = useState([])
+  const [aprovados, setAprovados] = useState([])
 
   useEffect(() => {
-    let lista_tweets = GET('/listar-tweets')
-    setLista(lista_tweets)
+    GET('/listar-tweets', setLista)
   }, [])
+
+  const aprovar_tweets = () => {
+    POST('/aprovar-tweets', aprovados);
+  }
 
   return (
     <div className="">
@@ -26,10 +30,18 @@ function Moderate() {
       <Grid container spacing={1} className="espacamento">
         <Grid item xs={1}></Grid>
         <Grid item xs={10}>
-          <Table rows={lista}/>
+          <Table rows={lista} aprovar={setAprovados}/>
         </Grid>
         <Grid item xs={1}></Grid>
       </Grid>
+      <Grid container spacing={1} className="espacamento">
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
+          <Button onClick={() => {aprovar_tweets()}}>Aprovar</Button>
+        </Grid>
+        <Grid item xs={1}></Grid>
+      </Grid>
+
     </div>
   );
 }
