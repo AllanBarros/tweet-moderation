@@ -43,38 +43,11 @@ exports.create = function (data) {
 }
 
 exports.find_tweets = () => {
-    return ultima_hashtag()
+    return ultima_hashtag(false)
 }
 
 exports.find_approved_tweets = () => {
-    return Hashtag.aggregate([
-        {
-          $sort: {
-            data_utilizada: -1
-          },
-          
-        },
-        {
-          $limit: 1
-        },
-        {
-          $project: {
-            hashtags: {
-              $filter: {
-                input: "$hashtags",
-                as: "item",
-                cond: {
-                  $eq: ["$$item.aprovado",true]
-                },
-              },
-            }
-          }
-        }
-      ]).then(res => {
-        return parser(res)
-    }).catch((error) => {
-        return error
-    })
+    return ultima_hashtag(true)
 }
 
 exports.aprovar_tweets = (data) => {
@@ -100,7 +73,7 @@ exports.aprovar_tweets = (data) => {
 
 exports.atualizar_lista = () => {
 
-    let ultima = ultima_hashtag()
+    let ultima = ultima_hashtag(false)
         .then(resultado => {
             return api.get_tweets(resultado[0].nome)
                 .then(result => {
@@ -117,10 +90,33 @@ exports.atualizar_lista = () => {
 
 }
 
-function ultima_hashtag() {
-    let ultimo = Hashtag.findOne().sort('-data_utilizada')
+function ultima_hashtag(status) {
+    let ultimo = Hashtag.aggregate([
+        {
+          $sort: {
+            data_utilizada: -1
+          },
+          
+        },
+        {
+          $limit: 1
+        },
+        {
+          $project: {
+            hashtags: {
+              $filter: {
+                input: "$hashtags",
+                as: "item",
+                cond: {
+                  $eq: ["$$item.aprovado", status]
+                },
+              },
+            }
+          }
+        }
+      ])
         .then(res => {
-            return parser(res._doc)
+            return parser(res)
         }).catch((error) => {
             return error
         })

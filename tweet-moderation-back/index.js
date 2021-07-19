@@ -14,7 +14,7 @@ app.use(express.json());
 app.get('/listar-tweets-aprovados', (req, res, next) => {
   let ultimo_tweet = hash.find_approved_tweets()
   .then((result) =>{
-    return res.status(200).send(result[0].hashtags)
+    return res.status(200).send(result[0][0].hashtags)
   })
   .catch((error) => {
     return res.status(500).send(error)
@@ -25,7 +25,7 @@ app.get('/listar-tweets-aprovados', (req, res, next) => {
 app.get('/listar-tweets', (req, res, next) => {
   let ultimo_tweet = hash.find_tweets()
   .then((result) =>{
-    return res.status(200).send(result[0].hashtags)
+    return res.status(200).send(result[0][0].hashtags)
   })
   .catch((error) => {
     return res.status(500).send(error)
