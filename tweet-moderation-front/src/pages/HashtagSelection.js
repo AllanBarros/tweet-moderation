@@ -38,7 +38,7 @@ function HashTagSelection() {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={10}>
                     <TextField className="ocupar" variant="outlined" required id="standard-required" label="Digite a hashtag para busca"  value={hashtag} onChange={(e) =>{handle_hashtag(e)}}/>
-                    <Button onClick={()=>{buscar_hashtag()}}>Buscar</Button>
+                    <Button className="margem" variant='contained' color='primary' fullWidth={true} onClick={()=>{buscar_hashtag()}}>Buscar</Button>
                 </Grid>
                 <Grid item xs={1}></Grid>
             </Grid>

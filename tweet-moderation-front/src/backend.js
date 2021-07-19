@@ -11,6 +11,7 @@ export function POST(endpoint, valor) {
       valor
     }, options)
     .then((response) => {
+      window.location = "/moderar";
       return response;
     }, (error) => {
       console.log(error);

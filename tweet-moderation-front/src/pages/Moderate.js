@@ -37,7 +37,7 @@ function Moderate() {
       <Grid container spacing={1} className="espacamento">
         <Grid item xs={1}></Grid>
         <Grid item xs={10}>
-          <Button onClick={() => {aprovar_tweets()}}>Aprovar</Button>
+          <Button variant='contained' color='primary' fullWidth={true} onClick={() => {aprovar_tweets()}}>Aprovar</Button>
         </Grid>
         <Grid item xs={1}></Grid>
       </Grid>
