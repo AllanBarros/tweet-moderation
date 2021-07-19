@@ -2,6 +2,20 @@ const mongoose = require('./db');
 const { Hashtag } = require('./models/schemas');
 const api = require('../twitterApi');
 
+function comparador(outroArray) {
+    return function (atual) {
+        return outroArray.filter(function (outro) {
+            return String(atual.id) == outro.id_tweet
+        }).length == 0;
+    }
+}
+
+function parser(resultado){
+    let jsonData = JSON.stringify(resultado)
+    let parsed_result = JSON.parse(jsonData)
+    return parsed_result
+}
+
 
 function hashtag_create(hashtag, resultado_busca) {
 
@@ -12,9 +26,7 @@ function hashtag_create(hashtag, resultado_busca) {
 
     return Hashtag.create({ nome: hashtag, data_utilizada: Date.now(), hashtags: tweets })
         .then(res => {
-            let jsonData = JSON.stringify(res._doc)
-            let parsed_result = JSON.parse(jsonData)
-            return parsed_result
+          return parser(res._doc)
         }).catch((error) => {
             return error
         })
@@ -59,9 +71,7 @@ exports.find_approved_tweets = () => {
           }
         }
       ]).then(res => {
-        let jsonData = JSON.stringify(res)
-        let parsed_result = JSON.parse(jsonData)
-        return parsed_result
+        return parser(res)
     }).catch((error) => {
         return error
     })
@@ -94,7 +104,7 @@ exports.atualizar_lista = () => {
         .then(resultado => {
             return api.get_tweets(resultado[0].nome)
                 .then(result => {
-                    return add_subdocument(resultado[0], result)
+                    return adicionar_subdocumento(resultado[0], result)
                 })
                 .catch(error => {
                     return error
@@ -110,9 +120,7 @@ exports.atualizar_lista = () => {
 function ultima_hashtag() {
     let ultimo = Hashtag.findOne().sort('-data_utilizada')
         .then(res => {
-            let jsonData = JSON.stringify(res._doc)
-            let parsed_result = JSON.parse(jsonData)
-            return parsed_result
+            return parser(res._doc)
         }).catch((error) => {
             return error
         })
@@ -126,21 +134,13 @@ function ultima_hashtag() {
 
 }
 
-function add_subdocument(ultima, lista) {
+function adicionar_subdocumento(ultima, lista) {
 
     let tweets_atuais = ultima.hashtags
     let tweets_atualizados = lista.statuses
     let tweets = []
 
-    function comparer(otherArray) {
-        return function (current) {
-            return otherArray.filter(function (other) {
-                return String(current.id) == other.id_tweet
-            }).length == 0;
-        }
-    }
-
-    var result = tweets_atualizados.filter(comparer(tweets_atuais));
+    let result = tweets_atualizados.filter(comparador(tweets_atuais));
     if (result.length > 0) {
 
         result.map(tweet => {
@@ -149,9 +149,7 @@ function add_subdocument(ultima, lista) {
 
         return Hashtag.updateOne({ '_id': ultima._id }, { $push: { 'hashtags': tweets } })
             .then(res => {
-                let jsonData = JSON.stringify(res._doc)
-                let parsed_result = JSON.parse(jsonData)
-                return parsed_result
+                return parser(res._doc)
             }).catch((error) => {
                 return error
             })
