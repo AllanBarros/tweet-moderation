@@ -5,7 +5,7 @@ const options = {
   }
   
 exports.get_tweets = function(hashtag) {
-  return axios.get('https://api.twitter.com/1.1/search/tweets.json?q=%23' + hashtag, options)
+  return axios.get('https://api.twitter.com/1.1/search/tweets.json?q=%23' + hashtag + '&tweet_mode=extended', options)
   .then((response) => {
       return response.data
   }, (error) => {

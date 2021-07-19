@@ -7,7 +7,7 @@ function hashtag_create(hashtag, resultado_busca) {
 
     let tweets = []
     resultado_busca.statuses.map(tweet => {
-        return tweets.push({ usuario: tweet.user.name, texto: tweet.text, id_tweet: tweet.id, aprovado: false })
+        return tweets.push({ usuario: tweet.user.name, texto: tweet.full_text, id_tweet: tweet.id, aprovado: false })
     })
 
     return Hashtag.create({ nome: hashtag, data_utilizada: Date.now(), hashtags: tweets })
@@ -111,7 +111,7 @@ function add_subdocument(ultima, lista) {
     if (result.length > 0) {
 
         result.map(tweet => {
-            return tweets.push({ usuario: tweet.user.name, texto: tweet.text, id_tweet: tweet.id, aprovado: false })
+            return tweets.push({ usuario: tweet.user.name, texto: tweet.full_text, id_tweet: tweet.id, aprovado: false })
         })
 
         return Hashtag.updateOne({ '_id': ultima._id }, { $push: { 'hashtags': tweets } })
