@@ -18,12 +18,6 @@ function HashTagSelection() {
         return setLista(resultado);
     }
 
-    // useEffect(() => {
-    //   if (tokenload){ 
-    //     handleGetFields('multiplos/regime_tributacao/'+ tokenload, dispatch, handleGet, tokenload)
-    //   }  
-    // }, [])
-
     return (
         <div className="">
             <div>

@@ -25,7 +25,7 @@ function Moderate() {
       <Grid container spacing={1} className="espacamento">
         <Grid item xs={1}></Grid>
         <Grid item xs={10}>
-          <Table rows={lista}/>
+          <Table rows={lista} selection={false}/>
         </Grid>
         <Grid item xs={1}></Grid>
       </Grid>

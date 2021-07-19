@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import MaterialTable, { MaterialTableProps } from 'material-table';
-import { TablePagination, TablePaginationProps } from '@material-ui/core';
+// import { TablePagination, TablePaginationProps } from '@material-ui/core';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -38,39 +38,39 @@ const tableIcons = {
 };
 
 
-function PatchedPagination(props) {
-  const {
-    ActionsComponent,
-    onChangePage,
-    onChangeRowsPerPage,
-    ...tablePaginationProps
-  } = props;
+// function PatchedPagination(props) {
+//   const {
+//     ActionsComponent,
+//     onChangePage,
+//     onChangeRowsPerPage,
+//     ...tablePaginationProps
+//   } = props;
 
-  return (
-    <TablePagination
-      {...tablePaginationProps}
-      // @ts-expect-error onChangePage was renamed to onPageChange
-      onPageChange={onChangePage}
-      onRowsPerPageChange={onChangeRowsPerPage}
-      ActionsComponent={(subprops) => {
-        const { onPageChange, ...actionsComponentProps } = subprops;
-        return (
-          // @ts-expect-error ActionsComponent is provided by material-table
-          <ActionsComponent
-            {...actionsComponentProps}
-            onChangePage={onPageChange}
-          />
-        );
-      }}
-    />
-  );
-}
+//   return (
+//     <TablePagination
+//       {...tablePaginationProps}
+//       // @ts-expect-error onChangePage was renamed to onPageChange
+//       onPageChange={onChangePage}
+//       onRowsPerPageChange={onChangeRowsPerPage}
+//       ActionsComponent={(subprops) => {
+//         const { onPageChange, ...actionsComponentProps } = subprops;
+//         return (
+//           // @ts-expect-error ActionsComponent is provided by material-table
+//           <ActionsComponent
+//             {...actionsComponentProps}
+//             onChangePage={onPageChange}
+//           />
+//         );
+//       }}
+//     />
+//   );
+// }
 
 export default function Table(props) {
 
   return (
     <MaterialTable
-      components={{ Pagination: PatchedPagination }}
+      // components={{ Pagination: PatchedPagination }}
       icons={tableIcons}
       pageSize={15}
       title="Tweets"
@@ -82,7 +82,7 @@ export default function Table(props) {
       ]}
       data={props.rows}
       options={{
-        selection: true
+        selection: props.selection
       }}
       onSelectionChange={(rows) => {
         let ids = []
