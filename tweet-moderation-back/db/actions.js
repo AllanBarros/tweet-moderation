@@ -34,6 +34,39 @@ exports.find_tweets = () => {
     return ultima_hashtag()
 }
 
+exports.find_approved_tweets = () => {
+    return Hashtag.aggregate([
+        {
+          $sort: {
+            data_utilizada: -1
+          },
+          
+        },
+        {
+          $limit: 1
+        },
+        {
+          $project: {
+            hashtags: {
+              $filter: {
+                input: "$hashtags",
+                as: "item",
+                cond: {
+                  $eq: ["$$item.aprovado",true]
+                },
+              },
+            }
+          }
+        }
+      ]).then(res => {
+        let jsonData = JSON.stringify(res)
+        let parsed_result = JSON.parse(jsonData)
+        return parsed_result
+    }).catch((error) => {
+        return error
+    })
+}
+
 exports.aprovar_tweets = (data) => {
 
     let updates = data.valor.map(e => {

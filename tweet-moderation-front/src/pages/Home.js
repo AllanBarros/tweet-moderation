@@ -9,7 +9,7 @@ function Moderate() {
   const [lista, setLista] = useState([])
 
   useEffect(() => {
-    // GET('/listar-tweets-aprovados', setLista)
+     GET('/listar-tweets-aprovados', setLista)
   }, [])
 
   return (
