@@ -3,13 +3,14 @@ version: "3.9"
 services:
   db:
     image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - '27017:27017'
 
   backend:
-    build: .
-    command: sh -c 'cd ./tweet-moderation-front && npm install && node index.js '
+    build:
+        context: .
+        dockerfile: Dockerfile-back
+    command: sh -c 'cd ./tweet-moderation-back && node index.js '
 
     volumes:
       - .:/tweet-moderation-back
@@ -21,8 +22,8 @@ services:
 
   frontend:
         build:
-          context: frontend
-          dockerfile: Dockerfile
+          context: .
+          dockerfile: Dockerfile-front
         command: sh -c "cd ./tweet-moderation-front && npm install && npm start"
         volumes:
           - .:/tweet-moderation-front

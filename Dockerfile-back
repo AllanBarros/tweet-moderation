@@ -1,0 +1,5 @@
+FROM node:12.18.4
+WORKDIR /usr/src/backend
+COPY /tweet-moderation-back/package*.json ./
+RUN npm install
+COPY . .
