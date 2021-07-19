@@ -14,7 +14,7 @@ app.use(express.json());
 app.get('/listar-tweets', (req, res, next) => {
   let ultimo_tweet = hash.find_tweets()
   .then((result) =>{
-    return res.status(200).send(result.hashtags)
+    return res.status(200).send(result[0].hashtags)
   })
   .catch((error) => {
     return res.status(500).send(error)
@@ -39,7 +39,11 @@ app.post('/aprovar-tweets', (req, res, next) => {
   .catch((error) => {
     return res.status(500).send(error)
   })
-})  
+}) 
+
+
+setInterval(hash.atualizar_lista, 900000);
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var tweetSchema = new Schema({
     usuario:String,
     texto: String,
+    id_tweet: String,
     aprovado: Boolean
   });
 
