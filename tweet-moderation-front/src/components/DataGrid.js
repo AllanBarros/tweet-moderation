@@ -38,7 +38,7 @@ const tableIcons = {
 };
 
 
-function PatchedPagination(props: TablePaginationProps) {
+function PatchedPagination(props) {
   const {
     ActionsComponent,
     onChangePage,
