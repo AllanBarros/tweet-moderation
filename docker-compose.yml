@@ -10,7 +10,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-back
-    command: sh -c 'cd ./tweet-moderation-back && node index.js '
+    command: sh -c 'cd ./tweet-moderation-back && npm install && node index.js '
 
     volumes:
       - .:/tweet-moderation-back
